@@ -1,28 +1,26 @@
-FlashLogger
+FlashInterceptor
 ===========
 
-  This plugin logs flash messages with whatever keys you specify in your environment.rb file
+  This used to be a plugin for logging flash now its a more general purpose and simpler way to register callbacks
+  with the use of flash
 
   it does this by overriding the ActionController flash method and returning a Flash like object that delegates back 
-  to the original flash object.  Before it does the delegation it calls a newly included log method that creates a record 
-  in the flash_messages table
+  to the original flash object.  It will send the callbacks to the controller when accessing the flash []= method passing
+  along the flash message
 
   NOTE:  This code is not ready for production
 
 Example
 =======
 
-  [ config ]
-    flash_logger.flash_types :error, :failure
-
   [ usage ]
     
-    call log_flash_messages in whatever controller you'd like to log the messages for.  Alternatively you can place it in 
-    application_controller if you want all messages logged
+    call before_flash in whatever controller you'd like to register callbacks for.  Alternatively you can place it in 
+    application_controller if you want callbacks registered for all controllers
 
     Class ApplicationController < ActionController::Base
 
-      log_flash_messages
+      before_flash :some_callback
 
     end
 

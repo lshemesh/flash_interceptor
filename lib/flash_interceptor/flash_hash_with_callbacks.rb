@@ -1,13 +1,7 @@
-module FlashLogger
+module FlashInterceptor
 
-  class FlashHashWithLogger
+  class FlashHashWithCallbacks
     attr_accessor :controller, :flash
-
-    KEYS_TO_LOG = [
-      :notice,
-      :failure,
-      :error
-    ]
 
     def initialize(kontroller, flash)
       @controller = kontroller  
@@ -19,7 +13,9 @@ module FlashLogger
     end
 
     def []=(k, v)
-      @controller.log(v) if KEYS_TO_LOG.include?(k)
+      @controller.before_flash_callbacks.each do |callback|
+        @controller.send(callback)
+      end
       @flash[k] = v
     end
 

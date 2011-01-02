@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-module FlashLogger
+module FlashInterceptor
 
-  describe FlashHashWithLogger do
+  describe FlashHashWithCallbacks do
 
     before do
       @mock_controller  = mock('ActionController::Base')
@@ -12,14 +12,14 @@ module FlashLogger
     describe ".new" do
 
       it "creates a new instance of FlashHashWithLogger" do
-        FlashHashWithLogger.new(@mock_controller, @mock_flash).should_not be_nil
+        FlashHashWithCallbacks.new(@mock_controller, @mock_flash).should_not be_nil
       end
 
     end
 
     context "with a new instance" do
 
-      let(:flash) { FlashHashWithLogger.new(@mock_controller, @mock_flash) }
+      let(:flash) { FlashHashWithCallbacks.new(@mock_controller, @mock_flash) }
 
       describe "#[]" do
 

@@ -1,3 +1,3 @@
-require 'flash_logger'
+require 'flash_interceptor'
 
-ActionController::Base.send :include, FlashLogger::ControllerMethods
+ActionController::Base.send :include, FlashInterceptor::ControllerMethods
