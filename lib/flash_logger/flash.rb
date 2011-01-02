@@ -1,3 +1,5 @@
+require 'action_controller/flash'
+
 module ActionController
   module Flash
     module InstanceMethods

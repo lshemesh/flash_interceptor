@@ -29,8 +29,10 @@ module FlashLogger
           :user_agent => request.user_agent,
           :ip_address => request.remote_ip,
           :user_id    => current_user,
-          :session    => request.session_options['id'] if request.session_options
         }
+
+        data.merge(:session  => request.session_options['id']) if request.session_options
+
         session['error_log'] = FlashMessages.create(data).id
       rescue Exception => e
         logger.debug(e.message);
@@ -39,5 +41,3 @@ module FlashLogger
   end
 
 end
-
-ActionController::Base.send :include, FlashLogger::ControllerMethods

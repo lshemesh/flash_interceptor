@@ -28,7 +28,7 @@ module FlashLogger
     end
 
     def now
-      @flash = @flash.now
+      self.flash = @flash.now
       self
     end
 
