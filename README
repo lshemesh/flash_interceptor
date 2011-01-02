@@ -7,6 +7,8 @@ FlashLogger
   to the original flash object.  Before it does the delegation it calls a newly included log method that creates a record 
   in the flash_messages table
 
+  NOTE:  This code is not ready for production
+
 Example
 =======
 

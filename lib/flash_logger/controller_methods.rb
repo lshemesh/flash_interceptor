@@ -40,4 +40,4 @@ module FlashLogger
 
 end
 
-ActionController::Base.send :include, Flogger::ControllerMethods
+ActionController::Base.send :include, FlashLogger::ControllerMethods
