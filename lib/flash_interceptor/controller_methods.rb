@@ -27,9 +27,9 @@ module FlashInterceptor
 
     module InstanceMethods
 
-      def perform_before_flash_callbacks(message)
+      def perform_before_flash_callbacks(type, message)
         before_flash_callbacks.each do |callback|
-          send callback, message
+          send callback, type, message
         end
       end
 

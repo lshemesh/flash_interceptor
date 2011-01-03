@@ -13,11 +13,11 @@ class TestController < ActionController::Base
     @results ||= []
   end
 
-  def callback1(message)
+  def callback1(type, message)
     results << "callback1 called with #{message}"
   end
 
-  def callback2(message)
+  def callback2(type, message)
     results << "callback2 called with #{message}"
   end
                

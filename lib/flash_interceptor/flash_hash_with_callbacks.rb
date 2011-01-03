@@ -13,7 +13,7 @@ module FlashInterceptor
     end
 
     def []=(k, v)
-      @controller.perform_before_flash_callbacks(v)
+      @controller.perform_before_flash_callbacks(k, v)
       @flash[k] = v
     end
 
