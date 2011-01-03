@@ -16,7 +16,7 @@ module FlashInterceptor
 
     it "adds :some_callback to before_callbacks" do
       TestController.before_flash :some_callback
-      TestController.before_flash_callbacks.should include(:some_callback)
+      @controller.before_flash_callbacks.should include(:some_callback)
     end
 
     it "adds multiple callbacks" do

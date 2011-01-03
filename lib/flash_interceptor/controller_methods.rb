@@ -9,17 +9,18 @@ module FlashInterceptor
 
     module ClassMethods
 
+      @@before_flash_callbacks = []
+
       def clear_flash_callbacks
-        @@before_flash_callbacks = nil
+        @@before_flash_callbacks = []
       end
 
       def before_flash(*callbacks)
-        puts "called before_flash with #{callbacks}"
-        before_flash_callbacks.concat(callbacks)
+        @@before_flash_callbacks |= callbacks
       end
 
       def before_flash_callbacks
-        @@before_flash_callbacks ||= []
+        @@before_flash_callbacks
       end
 
     end
@@ -36,11 +37,9 @@ module FlashInterceptor
         FlashHashWithCallbacks.new(self, flash_without_callbacks)
       end
 
-      private
-
-        def before_flash_callbacks
-          self.class.before_flash_callbacks
-        end
+      def before_flash_callbacks
+        self.class.before_flash_callbacks
+      end
 
     end
 
