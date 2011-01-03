@@ -10,15 +10,16 @@ module FlashInterceptor
     module ClassMethods
 
       def clear_flash_callbacks
-        @before_flash_callbacks = nil
+        @@before_flash_callbacks = nil
       end
 
       def before_flash(*callbacks)
+        puts "called before_flash with #{callbacks}"
         before_flash_callbacks.concat(callbacks)
       end
 
       def before_flash_callbacks
-        @before_flash_callbacks ||= []
+        @@before_flash_callbacks ||= []
       end
 
     end
