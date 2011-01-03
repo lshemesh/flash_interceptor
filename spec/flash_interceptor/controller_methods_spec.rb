@@ -6,7 +6,7 @@ module FlashInterceptor
 
     before do
       @controller = TestController.new
-      @controller.stubs(:flash_without_callbacks).returns(DummyFlash.new)
+      @controller.stubs(:flash_without_callbacks).returns(@flash = DummyFlash.new)
       TestController.clear_flash_callbacks
     end
 
@@ -25,9 +25,9 @@ module FlashInterceptor
     end
 
     it "calls the callbacks" do
-      TestController.before_flash :callback1
-      @controller.expects(:callback1)
+      TestController.before_flash :callback1, :callback2
       @controller.flash["key"] = "message"
+      @controller.results.should include('callback1 called with message', 'callback2 called with message')
     end
 
   end

@@ -13,9 +13,7 @@ module FlashInterceptor
     end
 
     def []=(k, v)
-      @controller.before_flash_callbacks.each do |callback|
-        @controller.send(callback)
-      end
+      @controller.perform_before_flash_callbacks(v)
       @flash[k] = v
     end
 

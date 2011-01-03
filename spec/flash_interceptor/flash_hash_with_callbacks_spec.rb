@@ -5,28 +5,28 @@ module FlashInterceptor
   describe FlashHashWithCallbacks do
 
     before do
-      @mock_controller  = mock('ActionController::Base')
-      @mock_flash       = mock('FlashHash') 
+      @controller  = TestController.new
+      @mock_flash  = DummyFlash.new
+      TestController.clear_flash_callbacks
     end
 
     describe ".new" do
 
       it "creates a new instance of FlashHashWithLogger" do
-        FlashHashWithCallbacks.new(@mock_controller, @mock_flash).should_not be_nil
+        FlashHashWithCallbacks.new(@controller, @mock_flash).should_not be_nil
       end
 
     end
 
     context "with a new instance" do
 
-      let(:flash) { FlashHashWithCallbacks.new(@mock_controller, @mock_flash) }
+      let(:flash) { FlashHashWithCallbacks.new(@controller, @mock_flash) }
 
       describe "#[]" do
 
         it "delegates to the flash objects [] method" do
-          k, v = "key", "value"
-          @mock_flash.expects(:[]).with(k)
-          flash[k]
+          k = "key1"
+          flash[k].should == "value1"
         end
 
       end
@@ -34,24 +34,17 @@ module FlashInterceptor
       describe "#[]=" do
 
         it "delegates to the flash objects []= method" do
-          k, v = "key", "value"
-          @mock_flash.expects(:[]=).with(k, v)
+          k, v = "new_key", "new_value"
           flash[k] = v
+          @mock_flash[k].should == v
         end
 
-        it "logs the message using a loggable key" do
+        it "calls the callbacks" do
           k, v = :notice, "value"
-          @mock_flash.expects(:[]=).with(k, v)
-          @mock_controller.expects(:log).with(v)
+          @controller.expects(:perform_before_flash_callbacks)
           flash[k] = v
         end
 
-        it "does not log the message using a non loggable key" do
-          k, v = :bad_key, "value"
-          @mock_flash.expects(:[]=).with(k, v)
-          @mock_controller.expects(:log).never.with(v)
-          flash[k] = v
-        end
       end
 
       describe "#now" do

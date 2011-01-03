@@ -8,14 +8,33 @@ RSpec.configure do |config|
 end
 
 class TestController < ActionController::Base
+
+  def results
+    @results ||= []
+  end
+
+  def callback1(message)
+    results << "callback1 called with #{message}"
+  end
+
+  def callback2(message)
+    results << "callback2 called with #{message}"
+  end
+               
 end
 
 class DummyFlash 
+  
+  attr_accessor :results
 
   DUMMY_DATA = {
     "key1" => "value1",
     "key2" => "value2"
   }
+
+  def intialize
+    results = []  
+  end
 
   def [](k)
     DUMMY_DATA[k]

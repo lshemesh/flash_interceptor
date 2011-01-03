@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 module FlashInterceptor
 
   module ControllerMethods
@@ -11,31 +9,40 @@ module FlashInterceptor
 
     module ClassMethods
 
-      def before_flash_callbacks
-        @before_flash_callbacks ||= []
+      def clear_flash_callbacks
+        @before_flash_callbacks = nil
       end
 
       def before_flash(*callbacks)
         before_flash_callbacks.concat(callbacks)
       end
 
-      def clear_flash_callbacks
-        @before_flash_callbacks = nil
+      def before_flash_callbacks
+        @before_flash_callbacks ||= []
       end
 
     end
 
     module InstanceMethods
 
-      def before_flash_callbacks
-        self.class.before_flash_callbacks
+      def perform_before_flash_callbacks(message)
+        before_flash_callbacks.each do |callback|
+          send callback, message
+        end
       end
 
       def flash
         FlashHashWithCallbacks.new(self, flash_without_callbacks)
       end
 
+      private
+
+        def before_flash_callbacks
+          self.class.before_flash_callbacks
+        end
+
     end
+
   end
 
 end
